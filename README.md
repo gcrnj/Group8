@@ -4,8 +4,8 @@
 
 - ***Cornejo, Gio***
 - ***Agregado, King Philip Denmar***
+- ***Navarette, Ethan Dale***
 - ***Saligan, Ivhan***
-- ***Cornejo, Gio B.***
 
 ### Testing
 - Run `test.py`

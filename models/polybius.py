@@ -1,5 +1,7 @@
-from constants import empty_space
-from models.encryption_base import EncryptionBase
+from constants import empty_space, empty_string, invalidPolybius
+from models.encryption_decryption_base import EncryptionBase
+from models.encryption_decryption_result import Result
+import textwrap
 
 
 class Polybius(EncryptionBase):
@@ -13,48 +15,49 @@ class Polybius(EncryptionBase):
 
     def __init__(self):
         self.dict = {
-            'A': (1, 1), 'B': (1, 2), 'C': (1, 3), 'D': (1, 4), 'E': (1, 5),
-            'F': (2, 1), 'G': (2, 2), 'H': (2, 3), 'IJ': (2, 4), 'K': (2, 5),
-            'L': (3, 1), 'M': (3, 2), 'N': (3, 3), 'O': (3, 4), 'P': (3, 5),
-            'Q': (4, 1), 'R': (4, 2), 'S': (4, 3), 'T': (4, 4), 'U': (4, 5),
-            'V': (5, 1), 'W': (5, 2), 'X': (5, 3), 'Y': (5, 4), 'Z': (5, 5),
+            'A': '11', 'B': '12', 'C': '13', 'D': '14', 'E': '15',
+            'F': '21', 'G': '22', 'H': '23', 'IJ': '24', 'K': '25',
+            'L': '31', 'M': '32', 'N': '33', 'O': '34', 'P': '35',
+            'Q': '41', 'R': '42', 'S': '43', 'T': '44', 'U': '45',
+            'V': '51', 'W': '52', 'X': '53', 'Y': '54', 'Z': '55',
         }
-        self.j = 'J'
 
     def __get_coordinates_of(self, code: str) -> str:
-        for key, (row, col) in self.dict.items():
+        for key, coordinates in self.dict.items():
             if code.upper() in key:
-                return f"{str(row)}{str(col)}"
+                return coordinates.__str__()
         # If not found, return the passed str
         return code.strip()
 
-    def __get_key_of(self, coordinate: tuple) -> str:
+    def __get_key_of(self, coordinate: str) -> str:
         for key, value in self.dict.items():
-            if value == coordinate:
+            if value == coordinate.upper():
                 return key[0]
         # If not found, return an empty string or another suitable default value
-        return ""
+        return coordinate
 
     # [code] parameter is the user input
-    def encrypt(self, code: str) -> str:
-        result = []
-        if code:
-            for character in code:
-                result.append(self.__get_coordinates_of(character))
-        result = [value for value in result if value != '' and value != ' ']  # Remove all empty values
-        return " ".join(map(str, result))
+    def encrypt(self, code: str) -> Result:
+        # initialize a result of lists
+        result = [self.__get_coordinates_of(character)
+                  for character in code
+                  if character and character not in {'', ' '}
+                  ]
+        return Result(is_passed=True, message="".join(map(str, result)))
 
     # [code] parameter is the user input
-    def decrypt(self, code: str) -> str:
-        # code = code.replace(empty_space, empty_string)
-        result = ""
-        codes_list = code.split(empty_space)
+    def decrypt(self, code: str) -> Result:
+        # Remove all spaces in case of typo
+        trimmed_code = code.replace(empty_space, empty_string)
 
-        if codes_list:  # List is not empty
-            for coordinate in codes_list:
-                if len(coordinate) == 2:
-                    result += self.__get_key_of((int(coordinate[0]), int(coordinate[1])))
-                else:
-                    return f"Invalid Value: {coordinate}"
+        # Check if special chars is present
+        if not trimmed_code.isdigit():
+            # Return error
+            return Result(is_passed=False, message=invalidPolybius)
 
-        return result
+        # Trim into a list of 2 characters each
+        codes_list = textwrap.wrap(trimmed_code, 2)
+
+        result = ''.join(self.__get_key_of(coordinate) for coordinate in codes_list if codes_list)
+
+        return Result(is_passed=True, message=result)

@@ -21,59 +21,61 @@ class Group8Project:
         selected = Topic.Invalid
         while selected == Topic.Invalid:
             userSelection = input(
-                f"{divider}"
                 f"{userSelectionQuestion} {newLine}"
                 f"{rot13EncryptionOption} {newLine}"
                 f"{rot13DecryptionOption} {newLine}"
                 f"{polybiusEncryptionOption} {newLine}"
                 f"{polybiusDecryptionOption} {newLine}"
                 f"{exitOption} {newLine}"
-                f"{divider}"
+                # f"{divider}"
                 f"{selectionText}"
             ).upper()  # Convert to uppercase so that the input is NOT case-sensitive
             isValidTopicsOption = any(userSelection == topic.value for topic in Topic)
             if isValidTopicsOption and userSelection != Topic.Exit.value and userSelection != Topic.Invalid.value:
                 selected = Topic.find_member_by_value(userSelection)
             elif userSelection == Topic.Exit.value:  # Exit
-                self.exit_all()
+                self.__exit_all()
             else:  # Invalid
                 print(invalidOption)
+                print((divider * 2).strip())
                 selected = Topic.Invalid
         return selected
 
     # Rot 13 - Encrypt
-    def encrypt_rot13(self):
-        self.rot13.perform_encryption(input("Decrypted code > "))
+    def encrypt_rot13(self) -> bool:
+        return self.rot13.perform_encryption(input("Decrypted code > "))
 
     # Rot 13 - Decrypt
-    def decrypt_rot13(self):
-        self.rot13.perform_decryption(input("Encrypted Code > "))
+    def decrypt_rot13(self) -> bool:
+        return self.rot13.perform_decryption(input("Encrypted Code > "))
 
     # Polybius - Encrypt
-    def encrypt_polybius(self):
-        self.polybius.perform_encryption(input("Decrypted code > "))
-        pass
+    def encrypt_polybius(self) -> bool:
+        return self.polybius.perform_encryption(input("Decrypted code > "))
 
     # Polybius - Decrypt
-    def decrypt_polybius(self):
-        self.polybius.perform_decryption(input("Decrypted code > "))
-        pass
+    def decrypt_polybius(self) -> bool:
+        return self.polybius.perform_decryption(input("Encrypted code > "))
 
 
 if __name__ == '__main__':
     print(title)
     group_project = Group8Project()
     selection = group_project.get_user_selection()
+    is_input_valid = False
 
-    while selection != Topic.Exit:
+    while selection != Topic.Exit or not is_input_valid:
         group_project.clear_console()
         if selection == Topic.ROT13_Encryption:
-            group_project.encrypt_rot13()
+            is_input_valid = group_project.encrypt_rot13()
         if selection == Topic.ROT13_Decryption:
-            group_project.decrypt_rot13()
+            is_input_valid = group_project.decrypt_rot13()
         elif selection == Topic.Polybius_Encryption:
-            group_project.encrypt_polybius()
+            is_input_valid = group_project.encrypt_polybius()
         elif selection == Topic.Polybius_Decryption:
-            group_project.decrypt_polybius()
+            is_input_valid = group_project.decrypt_polybius()
+
+        if is_input_valid:
+            print((divider * 2).strip())
         selection = group_project.get_user_selection()
     print(exitMessage)

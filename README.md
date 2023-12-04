@@ -7,19 +7,18 @@
 - ***Navarette, Ethan Dale***
 - ***Saligan, Ivhan***
 
-### Testing
-- Run `test.py`
+### How to run?
 
-### Main
-- Run `main.py`
+- Run `python main.py` in your terminal or click the `Run` button in Pycharm
 
-| **Files**                   | **Class**        | **Description**                                                                                                                                                                  |
-|-----------------------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `main.py`                   | `Group8`         | This is where the main function is located.                                                                                                                                      |
-| `constants.py`              |                  | Contains all the strings and Enums to prevent hardcoded values.                                                                                                                  |
-| `models/base_encryption.py` | `BaseEncryption` | The Abstract class that all the Encryption classes should extend to.<br/>It also has the callable function that will display the encrypted nad decrypted values that extends it. |
-| `models/polybius.py`        | `Polybius`       | The class that holds the process of encryption and decryption of ***Polybius***.                                                                                                 |
-| `models/rot13.py`           | `ROT13`          | The class that holds the process of encryption and decryption of **ROT13**.                                                                                                      |
+| **Files**                                | **Class**        | **Description**                                                                                                                                                                                              |
+|------------------------------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `main.py`                                | `Group8`         | This is where the main function is located.                                                                                                                                                                  |
+| `constants.py`                           |                  | Contains all the strings and Enums to prevent hardcoded values.                                                                                                                                              |
+| `models/encryption_decryption_base.py`   | `BaseEncryption` | The Abstract class that all the Encryption classes should extend to.<br/>It also has the callable function that will display the encrypted nad decrypted values that extends it.                             |
+| `models/encryption_decryption_result.py` | `Result`         | The model that holds the result of encryption and decryption.<br/>`is_passed` - If there is not error.<br/> `message` - is the encrypted, decrypted, or error message depending on the value of `is_passed`. |
+| `models/polybius.py`                     | `Polybius`       | The class that holds the process of encryption and decryption of ***Polybius***.                                                                                                                             |
+| `models/rot13.py`                        | `ROT13`          | The class that holds the process of encryption and decryption of **ROT13**.                                                                                                                                  |
 
 ## ROT13
 

@@ -14,9 +14,6 @@ class Group8Project:
         print(goodbyeMessage)
         sys.exit()
 
-    def clear_console(self):
-        pass  # Todo clear console
-
     def get_user_selection(self) -> Topic:
         selected = Topic.Invalid
         while selected == Topic.Invalid:
@@ -65,7 +62,6 @@ if __name__ == '__main__':
     is_input_valid = False
 
     while selection != Topic.Exit or not is_input_valid:
-        group_project.clear_console()
         if selection == Topic.ROT13_Encryption:
             is_input_valid = group_project.encrypt_rot13()
         if selection == Topic.ROT13_Decryption:
